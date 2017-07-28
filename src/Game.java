@@ -7,6 +7,7 @@ import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 
 public class Game extends JFrame implements KeyListener{
@@ -28,6 +29,12 @@ public class Game extends JFrame implements KeyListener{
 
     String sprite_file = "Textures\\link.png";
     BufferedImage sprite;
+
+    String gif_file = "Textures\\Drifter_Sprite.gif";
+    Image gif;
+
+    String enemygif_file = "Textures\\enemy.gif";
+    Image enemygif;
 
     private ArrayList<Integer> keys = new ArrayList<>();
 
@@ -86,6 +93,8 @@ public class Game extends JFrame implements KeyListener{
         lastFrame = System.currentTimeMillis();
 
         sprite = loadTexture(sprite_file);
+        gif = loadTextureGif(gif_file);
+        enemygif = loadTextureGif(enemygif_file);
 
         //set background window color
         setBackground(Color.BLUE);
@@ -110,7 +119,15 @@ public class Game extends JFrame implements KeyListener{
         }
     }
 
-
+    public Image loadTextureGif(String filepath){
+        try {
+            return new ImageIcon(new File(filepath).toURI().toURL()).getImage();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
     /*
      * update()
@@ -184,9 +201,10 @@ public class Game extends JFrame implements KeyListener{
                 //g.setColor(new Color(0, 200, 255));
                 //g.fillOval(p.ix, p.iy, sz.ix, sz.iy);
                 g.drawImage(sprite, p.ix, p.iy, sz.ix, sz.iy, null);
-
-                g.setColor(Color.green);
-                g.fillOval(p2.ix, p2.iy, sz2.ix, sz2.iy);
+                g.drawImage(gif, 300, 300, 300, 300, null);
+                //g.setColor(Color.green);
+                //g.fillOval(p2.ix, p2.iy, sz2.ix, sz2.iy);
+                g.drawImage(enemygif, p2.ix, p2.iy, sz2.ix, sz2.iy, null);
 
                 g.setColor(Color.red);
                 //g.drawOval(p.ix, p.iy, sz.ix, sz.ix);
